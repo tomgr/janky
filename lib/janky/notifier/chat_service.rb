@@ -5,7 +5,7 @@ module Janky
         status = build.green? ? "was successful" : "failed"
         color = build.green? ? "green" : "red"
 
-        message = "Build #%s (%s) of %s/%s %s (%ss) %s" % [
+        message = "Build #%s (%s) of %s/%s %s (%ss) %s %s" % [
           build.number,
           build.short_sha1,
           build.repo_name,
@@ -13,6 +13,8 @@ module Janky
           status,
           build.duration,
           build.web_url
+          build.web_url,
+          build.url
         ]
 
         ::Janky::ChatService.speak(message, build.room, {:color => color})
