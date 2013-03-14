@@ -8,10 +8,10 @@ module Janky
           build.repo_name,
           build.branch_name,
           build.commit_author.split("<").first,
-          build.branch_url
+          build.url
         ]
 
-        ::Janky::ChatService.speak(message, build.room_id, {:color => "green"})
+        ::Janky::ChatService.speak(message, build.room, {:color => "green"})
       end
 
       def self.completed(build)
@@ -25,7 +25,6 @@ module Janky
           build.branch_name,
           status,
           build.duration,
-          build.web_url
           build.web_url,
           build.url
         ]
