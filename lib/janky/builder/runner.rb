@@ -27,7 +27,8 @@ module Janky
       end
 
       def output_url
-        URI(@build.url + "consoleText")
+        uri = URI(@build.url + "consoleText")
+        URI("#{@base_url}#{uri.path}")
       end
 
       def create_url
