@@ -60,7 +60,7 @@ module Janky
     get "/" do
       content_type "text/plain"
       repos = Repository.all(:include => [:branches, :commits, :builds]).map do |repo|
-        master = repo.branch_for("master")
+        master = repo.branch_for("develop")
 
         "%-17s %-13s %-10s %40s" % [
           repo.name,
