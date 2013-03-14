@@ -11,9 +11,10 @@ module Janky
     # git_host - Hostname where git repos are hosted. e.g. "github.com"
     #
     # Returns nothing.
-    def self.setup(user, password, secret, events, hook_url, api_url, git_host)
+    def self.setup(user, password, oauth_token, secret, events, hook_url, api_url, git_host)
       @user = user
       @password = password
+      @oauth_token = oauth_token
       @secret = secret
       @events = events
       @hook_url = hook_url
@@ -170,7 +171,7 @@ module Janky
     #
     # Returns nothing.
     def self.api
-      @api ||= API.new(@api_url, @user, @password)
+      @api ||= API.new(@api_url, @oauth_token)
     end
 
     # Turn on mock mode, meaning no request goes over the wire. Useful in

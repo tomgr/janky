@@ -1,58 +1,59 @@
 module Janky
   module GitHub
     class API
-      def initialize(url, user, password)
+      def initialize(url, oauth_token)
         @url = url
-        @user = user
-        @password = password
+        #@user = user
+        #@password = password
+	@oauth_token = oauth_token
       end
 
       def create(nwo, secret, url)
         request = Net::HTTP::Post.new(build_path("repos/#{nwo}/hooks"))
         payload = build_payload(url, secret)
         request.body = Yajl.dump(payload)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+	request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 
       def trigger(hook_url)
         path    = build_path(URI(hook_url).path + "/test")
         request = Net::HTTP::Post.new(path)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+	request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 
       def get(hook_url)
         path    = build_path(URI(hook_url).path)
         request = Net::HTTP::Get.new(path)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+	request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 
       def repo_get(nwo)
         path    = build_path("repos/#{nwo}")
         request = Net::HTTP::Get.new(path)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+        request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 
       def branches(nwo)
         path    = build_path("repos/#{nwo}/branches")
         request = Net::HTTP::Get.new(path)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+	request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 
       def commit(nwo, sha)
         path    = build_path("repos/#{nwo}/commits/#{sha}")
         request = Net::HTTP::Get.new(path)
-        request.basic_auth(@user, @password)
-
+        #request.basic_auth(@user, @password)
+	request['Authorization'] = "token #{@oauth_token}"
         http.request(request)
       end
 

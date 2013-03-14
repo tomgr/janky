@@ -119,7 +119,7 @@ module Janky
     end
 
     # Setup the callback URL of this Janky host.
-    Janky::Builder.setup(base_url + "_builder")
+    Janky::Builder.setup(settings["JANKY_BUILDER_BASE_URL"] + "_builder")
 
     # Setup the default Jenkins build host
     if settings["JANKY_BUILDER_DEFAULT"][-1] != ?/
@@ -152,6 +152,7 @@ module Janky
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
       settings["JANKY_GITHUB_PASSWORD"],
+      settings["JANKY_GITHUB_OAUTH_TOKEN"],
       settings["JANKY_GITHUB_HOOK_SECRET"],
       events,
       hook_url,
@@ -270,6 +271,7 @@ module Janky
     @app ||= Rack::Builder.app {
       # Exception reporting middleware.
       use Janky::Exception::Middleware
+      use Rack::CommonLogger
 
       # GitHub Post-Receive requests.
       map "/_github" do
