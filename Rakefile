@@ -1,7 +1,8 @@
 $LOAD_PATH.unshift(File.expand_path("../lib", __FILE__))
-ENV["RACK_ENV"] ||= "development"
+#ENV["RACK_ENV"] ||= "development"
 
 require "janky"
+require "janky/chat_service/hubot"
 Janky.setup(ENV)
 require "janky/tasks"
 
